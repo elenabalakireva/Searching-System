@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Main {
-    static final String PATH = "C:\\Users\\Admin\\IdeaProjects\\Searching\\pdfs";
+    static final String PATH = "pdfs";
     static final int port = 8989;
 
     public static void main(String[] args) throws Exception {
