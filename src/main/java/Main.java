@@ -1,6 +1,5 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,18 +17,24 @@ public class Main {
 
         BooleanSearchEngine booleanSearchEngine = new BooleanSearchEngine(new HashMap<>());
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            Socket clientSocket = serverSocket.accept();
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            while (true) {
+                try (
+                        Socket clientSocket = serverSocket.accept();
+                        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+                ) {
 
-            out.println("Write a word");
-            final String word = in.readLine();
 
-            List<PageEntry> sortedList = booleanSearchEngine.search(word);
-            out.println(stringToJson(sortedList));
+                    out.println("Write a word");
+                    final String word = in.readLine();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+                    List<PageEntry> sortedList = booleanSearchEngine.search(word);
+                    out.println(stringToJson(sortedList));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
