@@ -9,20 +9,23 @@ public class Client {
     public static void main(String args[]) {
         String host = "localhost";
         int port = 8989;
-        try (Socket clientSocket = new Socket(host, port)) {
-            PrintWriter out = new
-                    PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new
-                    InputStreamReader(clientSocket.getInputStream()));
+        try (
+                Socket socket = new Socket(host, port);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        ) {
             Scanner scanner = new Scanner(System.in);
             System.out.println(in.readLine());
             out.println(scanner.nextLine());
-
-            while (true) {
-                System.out.println(in.readLine());
+            String s;
+            while ((s = in.readLine()) != null) {
+                System.out.println(s);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        } catch (IOException ex) {
+            System.out.println("Не могу стартовать сервер");
+            ex.printStackTrace();
         }
+
     }
 }
